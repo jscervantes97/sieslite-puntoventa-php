@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lector de Código QR</title>
+</head>
+<body>
+  <h1>Escanear Código QR</h1>
+  <video id="video" width="300" height="300" style="border: 1px solid black;"></video>
+  <canvas id="canvas" hidden></canvas>
+  <p id="qr-result">Código QR Detectado: <span id="output"></span></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+  <script>
+    const video = document.createElement("video");
+    const canvasElement = document.getElementById("canvas");
+    const canvas = canvasElement.getContext("2d");
+    const outputData = document.getElementById("output");
+
+    // Acceso a la cámara
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true); // Para que funcione en dispositivos móviles
+      video.play();
+      requestAnimationFrame(tick);
+    });
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvasElement.hidden = false;
+        canvasElement.width = video.videoWidth;
+        canvasElement.height = video.videoHeight;
+        canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+        const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        if (code) {
+          outputData.innerText = code.data; // Mostrar el resultado del QR
+          console.log("Código QR detectado:", code.data);
+        } else {
+          outputData.innerText = "Escaneando...";
+        }
+      }
+      requestAnimationFrame(tick); // Continuar escaneando en cada frame
+    }
+  </script>
+</body>
+</html>
