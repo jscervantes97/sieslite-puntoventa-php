@@ -17,13 +17,13 @@ class CervezaPromocionesService {
     public function savePromotion($params) {
         $result = new ResultDTO("", null);
         try {
-            $idArticulo = $this->cervezasPromocionesRepository->executeQuery("INSERT INTO articulos (codigo, nombre, precio, existencia, status) VALUES('$params->codigo','$params->nombre', $params->precio, $params->existencia, 1);");
+            $idArticulo = $this->cervezasPromocionesRepository->save("INSERT INTO articulos (codigo, nombre, precio, existencia, status) VALUES('$params->codigo','$params->nombre', $params->precio, $params->existencia, 1);");
             $idCervezaPadre = $params->idCervezaPadre; 
             if($idCervezaPadre == null){
                 $idCervezaPadre = $idArticulo;
             }
             $idInserted = $this->cervezasPromocionesRepository->executeQuery("INSERT INTO cerveza_promociones(idCervezaPadre, nombre, codigo, unidad, cantidadPorUnidad, precio, idArticulo, status) 
-            VALUES($idCervezaPadre, '$params->nombre', '$params->codigo', '$params->unidad', $params->cantidadPorUnidad, $params->precio, $idArticulo, $params->status);"); 
+            VALUES($idCervezaPadre, '$params->nombre', '$params->codigo', '$params->unidad', $params->cantidadPorUnidad, $params->precio, $idArticulo,1);"); 
             $result->setMsg("Promoción de Cerveza Creada¡");
             $result->setData($idInserted);
         } catch (Exception $err) {
@@ -35,6 +35,7 @@ class CervezaPromocionesService {
     public function updatePromotion($params) {
         $result = new ResultDTO("", null);
         try {
+            $this->cervezasPromocionesRepository->executeQuery("UPDATE articulos SET nombre='$params->nombre', codigo='$params->codigo', precio=$params->precio WHERE idArticulo=$params->idArticulo;");
             $idUpdated = $this->cervezasPromocionesRepository->update($params); 
             $result->setMsg("Promoción de Cerveza Modificada con éxito¡");
             $result->setData($idUpdated);
@@ -48,6 +49,7 @@ class CervezaPromocionesService {
         $result = new ResultDTO("", null);
         try {
             $idRemoved = $this->cervezasPromocionesRepository->remove($params); 
+            $this->cervezasPromocionesRepository->executeQuery("UPDATE articulos SET codigo='$params->idArticulo', status=0 WHERE idArticulo=$params->idArticulo;");
             $result->setMsg("Promoción de Cerveza dada de baja con éxito¡");
             $result->setData($idRemoved);
         } catch (Exception $err) {
@@ -63,11 +65,11 @@ class CervezaPromocionesService {
         if ($params->nombre != "") {
             $query .= "AND nombre LIKE '$params->nombre%' "; 
         }
-
+        /*
         if ($params->limite > 0) {
             $query .= "LIMIT $params->limite ;"; 
         }
-
+        */
         $data = $this->cervezasPromocionesRepository->findByQuery($query);
         
         foreach ($data as $reg) {
@@ -94,7 +96,7 @@ class CervezaPromocionesService {
             $cervezaPromocion = $this->cervezasPromocionesRepository->findById($params->idCervezaPromociones); 
             if ($cervezaPromocion != null) {
                 $resultDTO->setMsg("Promoción encontrada¡");
-                $resultDTO->setData($cervezaPromocion->toJson());
+                $resultDTO->setData($cervezaPromocion);
             }
         } catch (Exception $err) {
             $resultDTO->setMsg("Ocurrió un error al buscar por ID: " . $err->getMessage());

@@ -74,16 +74,18 @@ class VentaService{
                 $this->ventaArticulosRepository->create($articulo);
                 $this->ventaArticulosRepository->updateIntentory($articulo);
             }
-            $idVentaNueva = $this->ventaRepository->update($params); 
-            $this->ventaArticulosRepository->executeQuery("UPDATE cortes SET idPrimerVenta = IF(idPrimerVenta is null, $params->idVenta , idPrimerVenta), idUltimaVenta=$params->idVenta, totalVentas=(totalVentas+1), totalVendido=(totalVendido + $params->totalVenta) WHERE idCorte=$params->idCorte;");
-            $this->ventaArticulosRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas where idCorte in ($params->idCorte);");
+            $this->ventaRepository->update($params); 
+            $this->ventaArticulosRepository->executeQuery("UPDATE cortes SET idPrimerVenta = IF(idPrimerVenta is null, $params->idVenta , idPrimerVenta), idUltimaVenta=$params->idVenta, totalVentas=(totalVentas+1) WHERE idCorte=$params->idCorte;");
+            //$this->ventaArticulosRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas where idCorte in ($params->idCorte);");
+            /*
             if($params->tipoPago == 0){ // Efectivo
                 $this->ventaArticulosRepository->executeQuery("UPDATE cortes SET totalVendidoEfectivo=(totalVendidoEfectivo + $params->totalVenta) WHERE idCorte=$params->idCorte;");
             }else{ // Electronico
                 $this->ventaArticulosRepository->executeQuery("UPDATE cortes SET totalVendidoElectronico=(totalVendidoElectronico + $params->totalVenta) WHERE idCorte=$params->idCorte;");
-            }
+            }*/
+            $ventaRegistrada = $this->ventaRepository->findById($params->idVenta);
             $resultDTO->setMsg("Venta Terminada¡¡ articulos registrados " . count($articulosVenta) );
-            $resultDTO->setData($idVentaNueva);
+            $resultDTO->setData($ventaRegistrada);
         }catch(Exception $err){
             $resultDTO->setMsg("Ocurrio un error al generar una venta nueva ".$err->getMessage());
         }

@@ -55,12 +55,12 @@ class CervezasPromocionesRepository extends GenericRepository {
 
     public function update($params) {
         return $this->executeQuery("UPDATE cerveza_promociones SET nombre='$params->nombre', codigo='$params->codigo', unidad='$params->unidad', 
-            cantidadPorUnidad=$params->cantidadPorUnidad, precio=$params->precio, idArticulo=$params->idArticulo, status=$params->status 
+            cantidadPorUnidad=$params->cantidadPorUnidad, precio=$params->precio, idCervezaPadre = $params->idCervezaPadre
             WHERE idCervezaPromociones=$params->idCervezaPromociones;"); 
     }
 
     public function remove($params) {
-        return $this->executeQuery("UPDATE cerveza_promociones set status = 0 WHERE idCervezaPromociones=$params->idCervezaPromociones;"); 
+        return $this->executeQuery("UPDATE cerveza_promociones set codigo = '$params->idArticulo', status = 0 WHERE idCervezaPromociones=$params->idCervezaPromociones;"); 
     }
 }
 

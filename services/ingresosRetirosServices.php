@@ -20,11 +20,11 @@ class IngresosRetirosService{
             $idIngresoRetiro = 0 ; 
             $idIngresoRetiro = $this->ingresosRetiroRepository->create($params);
             // 0 ingreso 1 retiro 
-            $sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
-            $sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
-            $this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
-            $this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
-            $resultDTO->setMsg("Ingreso Retiro creado con exito");
+            //$sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
+            //$sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
+            //$resultDTO->setMsg("Ingreso Retiro creado con exito");
             $resultDTO->setData($idIngresoRetiro);
         }catch(Exception $err){
             $resultDTO->setMsg("Ocurrio un error al crear un ingreso retiro nuevo : " . $err->getMessage());
@@ -37,10 +37,10 @@ class IngresosRetirosService{
         try{
             $idIngresoRetiro = 0 ; 
             $idIngresoRetiro = $this->ingresosRetiroRepository->update($params);
-            $sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
-            $sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
-            $this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
-            $this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
+            //$sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
+            //$sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
             
             $resultDTO->setMsg("Ingreso Retiro modificado con exito");
             $resultDTO->setData($idIngresoRetiro);
@@ -55,10 +55,10 @@ class IngresosRetirosService{
         try{
             $idIngresoRetiro = 0 ; 
             $idIngresoRetiro = $this->ingresosRetiroRepository->remove($params);
-            $sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
-            $sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
-            $this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
-            $this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
+            //$sumaIngresos = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 0 and status = 1;")->fetch_assoc()["monto"];
+            //$sumaRetiros = $this->ingresosRetiroRepository->findByQueryAssoc("select ifnull(sum(monto),0) as monto from ingresos_retiros ir  where idCorte = $params->idCorte and tipo = 1 and status = 1;")->fetch_assoc()["monto"];
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set totalIngresos = $sumaIngresos, totalRetiros = $sumaRetiros where idCorte =  $params->idCorte ;");
+            //$this->ingresosRetiroRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
             
             $resultDTO->setMsg("Ingreso Retiro Cancelado con exito");
             $resultDTO->setData($idIngresoRetiro);

@@ -103,6 +103,7 @@ class ArticulosService {
         $result = new ResultDTO("" , null ); 
         try{
             $this->articuloRepository->executeQuery("UPDATE articulos SET codigo='$params->codigo', nombre='$params->nombre', precio=$params->precio, existencia=$params->existencia, status=$params->status WHERE idArticulo=$params->idArticulo;");
+            $this->articuloRepository->executeQuery("UPDATE cerveza_promociones SET nombre='$params->nombre', codigo='$params->codigo', precio=$params->precio WHERE idArticulo=$params->idArticulo;");
             $result->setMsg("Articulo acualizado con exito¡");
         }catch(Exception $err){
             $result->setMsg("Ocurrio el siguente Error =>".$err->getMessage());
@@ -115,6 +116,7 @@ class ArticulosService {
         $result = new ResultDTO("" , null ); 
         try{
             $this->articuloRepository->executeQuery("UPDATE articulos SET codigo='$params->idArticulo', status=0 WHERE idArticulo=$params->idArticulo;");
+            $this->articuloRepository->executeQuery("UPDATE cerveza_promociones set codigo = '$params->idArticulo' status = 0 WHERE idArticulo=$params->idArticulo;");
             $result->setMsg("Articulo dado de baja con exito¡");
         }catch(Exception $err){
             $result->setMsg("Ocurrio el siguente Error =>".$err->getMessage());

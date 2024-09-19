@@ -38,7 +38,7 @@ class VentaRepository extends GenericRepository{
 
     public function findVentaEnProceso(){
         $searchVenta = null;  
-        $search = $this->findByQuery("SELECT idVenta, status, totalArticulos, totalVenta, fechaVenta, idUsuario, metodoPago, idCorte FROM ventas where status = 2  order by idVenta desc limit 1 ;");
+        $search = $this->findByQuery("SELECT idVenta, status, totalArticulos, totalVenta, fechaVenta, idUsuario, metodoPago, idCorte FROM ventas where status = 2 order by idVenta desc limit 1 ;");
         if(count($search) > 0){
             $searchVenta = new Venta() ; 
             $searchVenta->setIdVenta($search[0][0]);
@@ -60,7 +60,7 @@ class VentaRepository extends GenericRepository{
     }
 
     public function update($params){
-        return $this->executeQuery("UPDATE ventas SET status=$params->status, totalArticulos=$params->totalArticulos, totalVenta=$params->totalVenta, idUsuario=$params->idUsuario, metodoPago=$params->tipoPago WHERE idVenta=$params->idVenta;"); 
+        return $this->executeQuery("UPDATE ventas SET status=$params->status, totalArticulos=$params->totalArticulos, totalVenta=$params->totalVenta, idUsuario=$params->idUsuario, metodoPago=$params->tipoPago, idCorte = $params->idCorte WHERE idVenta=$params->idVenta;"); 
     }
 
     public function remove($params){

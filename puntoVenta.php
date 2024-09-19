@@ -424,6 +424,19 @@ require 'utilerys/sesionManager.php';
         }
 
         async function realizarCobro(){
+            const responseCorte = await fetch('http://localhost/sieslite/api/corte.php?opc=2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const json1 = await responseCorte.json();
+            console.log(json1) ;
+            if(json1.data == null){
+                document.getElementById("spanFolio").textContent = 'Favor de generar un corte en curso para poder vender';
+                return ;
+            }
+            idCorte = json1.data.idCorte ;
             let objJson = {
                 "status"  : 1,
                 "totalArticulos" : totalArticulos,

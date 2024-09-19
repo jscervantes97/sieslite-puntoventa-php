@@ -21,8 +21,8 @@ class GastoEntradaService {
         try{
             $idRegistro = 0  ; 
             $idRegistro = $this->gastoEntradaRepository->create($params);
-            $this->gastoEntradaRepository->executeQuery("update cortes set totalGastosEntradas = totalGastosEntradas + $params->montoTotal where idCorte = $params->idCorte ;");
-            $this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
+            //$this->gastoEntradaRepository->executeQuery("update cortes set totalGastosEntradas = totalGastosEntradas + $params->montoTotal where idCorte = $params->idCorte ;");
+            //$this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
             $resultDTO->setData($idRegistro);
             $resultDTO->setMsg("Datos guardados con exito¡");
         }catch(Exception $err){
@@ -36,8 +36,8 @@ class GastoEntradaService {
         try{
             $idRegistro = 0  ; 
             $idRegistro = $this->gastoEntradaRepository->remove($params);
-            $this->gastoEntradaRepository->executeQuery("update cortes set totalGastosEntradas = totalGastosEntradas - $params->montoTotal where idCorte = $params->idCorte ;");
-            $this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
+            //$this->gastoEntradaRepository->executeQuery("update cortes set totalGastosEntradas = totalGastosEntradas - $params->montoTotal where idCorte = $params->idCorte ;");
+            //$this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte = $params->idCorte ;");
             $resultDTO->setData($idRegistro);
             $resultDTO->setMsg("Datos borrados con exito¡");
         }catch(Exception $err){
@@ -54,8 +54,8 @@ class GastoEntradaService {
             $gastoEntrada  = $this->gastoEntradaRepository->findOne($params);
             $idCorteAnterior = $gastoEntrada->getIdCorte();
             $idRegistro = $this->gastoEntradaRepository->update($params);
-            $this->gastoEntradaRepository->executeQuery("update cortes c set c.totalGastosEntradas = (select if(sum(ge.montoTotal) is null, 0 ,sum(ge.montoTotal) ) from gasto_entrada ge where ge.idCorte =c.idCorte  and ge.status = 1 ) where c.idCorte in ($params->idCorte,$idCorteAnterior) ;  "); 
-            $this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte in ($params->idCorte,$idCorteAnterior) ;");
+            //$this->gastoEntradaRepository->executeQuery("update cortes c set c.totalGastosEntradas = (select if(sum(ge.montoTotal) is null, 0 ,sum(ge.montoTotal) ) from gasto_entrada ge where ge.idCorte =c.idCorte  and ge.status = 1 ) where c.idCorte in ($params->idCorte,$idCorteAnterior) ;  "); 
+            //$this->gastoEntradaRepository->executeQuery("update cortes set gananciaNeta = (totalVendido + montoFondo) - totalGastosEntradas + totalIngresos - totalRetiros where idCorte in ($params->idCorte,$idCorteAnterior) ;");
             $resultDTO->setData($idRegistro);
             $resultDTO->setMsg("Datos actualizados con exito¡");
         }catch(Exception $err){
